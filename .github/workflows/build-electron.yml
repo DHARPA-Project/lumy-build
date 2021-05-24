@@ -37,6 +37,24 @@ jobs:
       - name: Install dependencies using Node.js ${{ matrix.node-version }}
         # if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn install
+      # Electron builder takes version and release repository from the package.json file.
+      # As we want the version from the tag and this build repository instead of the app repository,
+      # we need to update these two fields.
+      - name: Update package.json repository
+        uses: jossef/action-set-json-field@v1
+        with:
+          file: applications/jupyter-app/package.json
+          field: repository.url
+          value: https://github.com/DHARPA-Project/lumy-build.git
+      - name: Get version from tag
+        id: version
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+      - name: Update package.json version
+        uses: jossef/action-set-json-field@v1
+        with:
+          file: applications/jupyter-app/package.json
+          field: version
+          value: ${{ steps.version.outputs.tag }}
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1
         env:

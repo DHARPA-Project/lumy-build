@@ -1,2 +1,1 @@
-# lumy-build
-Lumy app builds
+Lumy electron app build action.

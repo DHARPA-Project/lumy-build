@@ -38,7 +38,7 @@ jobs:
         # if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn install
         env:
-          NO_SOURCE_MAP: ${{ startsWith(matrix.os, "windows-")}}
+          NO_SOURCE_MAP: ${{ startsWith(matrix.os, 'windows-')}}
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1
         with:

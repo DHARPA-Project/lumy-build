@@ -37,10 +37,10 @@ jobs:
       - name: Install dependencies using Node.js ${{ matrix.node-version }}
         # if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn install
-        env:
-          NO_SOURCE_MAP: ${{ startsWith(matrix.os, 'windows-')}}
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1
+        env:
+          NO_SOURCE_MAP: ${{ startsWith(matrix.os, 'windows-')}}
         with:
           # GitHub token, automatically provided to the action
           # (No need to define this secret in the repo settings)

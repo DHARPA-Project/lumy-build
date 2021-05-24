@@ -49,6 +49,7 @@ jobs:
       - name: Get version from tag
         id: version
         run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+        shell: bash
       - name: Update package.json version
         uses: jossef/action-set-json-field@v1
         with:

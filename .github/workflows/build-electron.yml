@@ -74,3 +74,8 @@ jobs:
 
           package_root: applications/jupyter-app
           build_script_name: "build-all"
+
+          # windows and ubuntu build servers have a tendency of
+          # timing out on network connections. Just retry before
+          # abandoning the build
+          max_attempts: 3

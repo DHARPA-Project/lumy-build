@@ -56,10 +56,19 @@ jobs:
           file: applications/jupyter-app/package.json
           field: version
           value: ${{ steps.version.outputs.tag }}
+      - name: Prepare for app notarization
+        if: startsWith(matrix.os, 'macos')
+        # Import Apple API key for app notarization on macOS
+        run: |
+          mkdir -p ~/private_keys/
+          echo '${{ secrets.API_KEY }}' > ~/private_keys/AuthKey_${{ secrets.API_KEY_ID }}.p8
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1
         env:
           NO_SOURCE_MAP: ${{ startsWith(matrix.os, 'windows-')}}
+          # macOS notarization API key
+          API_KEY_ID: ${{ secrets.API_KEY_ID }}
+          API_KEY_ISSUER_ID: ${{ secrets.API_KEY_ISSUER_ID }}
         with:
           # GitHub token, automatically provided to the action
           # (No need to define this secret in the repo settings)

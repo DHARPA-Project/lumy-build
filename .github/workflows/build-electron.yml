@@ -19,7 +19,7 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v2
         with:
-          repository: DHARPA-Project/codename-vre
+          repository: DHARPA-Project/lumy
       - name: Set up nodejs
         uses: actions/setup-node@v1
         with:

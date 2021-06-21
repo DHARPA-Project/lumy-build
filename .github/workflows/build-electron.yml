@@ -56,6 +56,10 @@ jobs:
           file: applications/jupyter-app/package.json
           field: version
           value: ${{ steps.version.outputs.tag }}
+      - name: Extract commit hash
+        shell: bash
+        run: echo "##[set-output name=hash;]$(git rev-parse --short ${GITHUB_SHA})"
+        id: extract_hash
       - name: Prepare for app notarization
         if: startsWith(matrix.os, 'macos')
         # Import Apple API key for app notarization on macOS
@@ -69,6 +73,8 @@ jobs:
           # macOS notarization API key
           API_KEY_ID: ${{ secrets.API_KEY_ID }}
           API_KEY_ISSUER_ID: ${{ secrets.API_KEY_ISSUER_ID }}
+
+          BUILD_HASH: ${{ steps.extract_hash.outputs.hash }}
         with:
           # GitHub token, automatically provided to the action
           # (No need to define this secret in the repo settings)
